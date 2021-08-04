@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<Configuration status="warn">
+    <Properties>
+        <Property name="basePath">C:\\logs</Property>
+    </Properties>
+ 
+    <Appenders>
+        <RollingFile name="fileLogger" fileName="${basePath}/app-info.log" filePattern="${basePath}/app-info-%d{yyyy-MM-dd}.log"> //the name of the xml file must be entered here
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" /> //In case,a properties file and xml are used to log for the same source code,the properties file will be given primary preference,so the propertied file name can be changed as a result of which the xml file will be executed
+            </Policies>
+        </RollingFile>
+ 
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout   pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n" />
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.howtodoinjava" level="debug" additivity="true">
+            <appender-ref ref="fileLogger" level="debug" />
+        </Logger>
+        <Root level="debug" additivity="false"> //level must be changed to trace incase a trace message needs to be logged
+            <appender-ref ref="console" />
+        </Root>
+    </Loggers>
+</Configuration>
